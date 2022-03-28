@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .text_center{
+            text-align: center;
+        }
+        .display_none{
+            display: none;
+        }
+        h2{
+            margin-bottom: 50px;
+            cursor: wait;
+            cursor: default;
+        }
+        .cl{
+            cursor: pointer;
+        }
+        .sel0, .sel1, .sel2, .sel3{
+            background-color: aqua;
+            font-size: large;
+            font-weight: 700;
+        }
+        .sel0 ~ #box, .sel1 ~ #box, .sel2 ~ #box, .sel3 ~ #box{
+            display: inline-flex;
+        }
+        #box{
+            margin-top: 20px;
+            display: none;
+            border: 3px solid rgb(2, 9, 112);
+            height: 60vh;
+            position: absolute;
+            left: 3px;
+            right: 3px;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            align-items: center;
+            border-radius: 4px;
+        }
+        #box div{
+            width: 27vw;
+            height: 25vh;
+            border: 3px dashed black;
+            cursor: pointer;
+            border-radius: 7px;
+            background-image: linear-gradient( 
+                rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5) 
+                ), url("./play.png");
+            background-repeat: no-repeat;
+           background-position: center center;
+           background-size: 70px;
+        }
+        button{
+            position: absolute;
+            top: 93vh;
+            left: calc(50vw - 21px);
+        }
+    </style>
+</head>
+<body>
+    <div id="page1">
+        <h2 class="text_center">모드선택</h2>
+        <div class="cl text_center">computer mouse</div> 
+        <div class="cl text_center">arrow key</div>
+        <div class="cl text_center">number key</div>
+        <div class="cl text_center">english key</div>
+        <div id="box">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <button>start</button>
+    </div>
+    <script>
+        ////////전역변수
+        let mouseSelect = -1;
+        let arrowSelect = -1;
+        let numberSelect = -1;
+        let englishSelect = -1;
+        const clickDiv = document.querySelectorAll(".cl");
+        const selectDiv = document.querySelectorAll("#box > div");
+        const startButton = document.querySelector("button");
+        //////////
+        clickDiv[0].onclick = () => {
+            appear(0);
+            selectPlaybutton(0);
+        }
+        clickDiv[1].onclick = () => {
+            appear(1);
+            selectPlaybutton(1);
+        }
+        clickDiv[2].onclick = () => {
+            appear(2);
+            selectPlaybutton(2);
+        }
+        clickDiv[3].onclick = () => {
+            appear(3);
+            selectPlaybutton(3);
+        }
+        selectDiv[0].onclick = () => {
+            select(0);
+        }
+        selectDiv[1].onclick = () => {
+            select(1);
+        }
+        selectDiv[2].onclick = () => {
+            select(2);
+        }
+        startButton.onclick = () => {
+            if (mouseSelect != -1 && arrowSelect != -1 && numberSelect != -1 && englishSelect != -1) {
+                console.log("fin");
+            } else {
+                alert("⚠일부 모드가 비활성화 되어 있습니다⚠");
+            }
+        }
+        ///////////////함수
+        function appear(i) {
+            for (let j = 0; j < 4; j++) {
+                clickDiv[j].classList.remove(`sel${j}`);
+            }
+            clickDiv[i].classList.add(`sel${i}`);
+        }
+        function reset(i) {
+            for (let j = 0; j < 3; j++) {
+                selectDiv[j].style.backgroundImage = "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('./play.png')";
+            }
+            if (i!=-1) {
+                selectDiv[i].style.backgroundImage = "linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('./play.png')";
+            }
+        }
+        function selectPlaybutton(i) {
+            switch (true) {
+                case (i == 0): reset(mouseSelect);
+                    break;
+                case (i == 1): reset(arrowSelect);
+                    break;
+                case (i == 2): reset(numberSelect);
+                    break;
+                case (i == 3): reset(englishSelect);
+                    break;
+                default: console.log("err");
+                    break;
+            }
+        }
+        function select(i) {
+            reset(i);
+            let j = 0;
+            for (j = 0; j < 4; j++) {
+                if (clickDiv[j].classList.contains(`sel${j}`)) {
+                    break;
+                }
+            }
+            switch (true) {
+                case (j == 0): mouseSelect = i;
+                    break;
+                case (j == 1): arrowSelect = i;
+                    break;
+                case (j == 2): numberSelect = i;
+                    break;
+                case (j == 3): englishSelect = i;
+                    break;
+                default: console.log("err");
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
